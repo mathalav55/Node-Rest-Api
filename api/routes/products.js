@@ -8,21 +8,34 @@ router.get('/' , (req , res , next) =>{
     Prodcut.find()
     .exec()
     .then((docs)=>{
-        const response = {
-            count : docs.length,
-            prodcuts : docs.map(doc =>{
-                return {
-                    _id : doc._id,
-                    name : doc.name,
-                    price : doc.price,
-                    request : {
-                        type : 'GET',
-                        url : 'http://localhost:3000/products/' + doc._id,
-                    }
-                };
-            }),
-            
-        };
+        var response;
+        if( docs.length == 0){
+            response =  {
+                message : "No products available. Add products using below url",
+                schema : {
+                    name : "String",
+                    price : "Number"
+                },
+                req : "POST",
+                url : "http://localhost:3000/products"
+            }
+        }else{
+            response = {
+                count : docs.length,
+                prodcuts : docs.map(doc =>{
+                    return {
+                        _id : doc._id,
+                        name : doc.name,
+                        price : doc.price,
+                        request : {
+                            type : 'GET',
+                            url : 'http://localhost:3000/products/' + doc._id,
+                        }
+                    };
+                }),
+                
+            };
+        }   
         res.status(200).json(response);
     })
     .catch((err) =>{
@@ -45,7 +58,7 @@ router.post('/' , (req , res , next) =>{
             name : result.name,
             price : result.price,
             request : {
-                type : 'POST',
+                type : 'GET',
                 url : 'http://localhost:3000/products/' + result._id,
             }
         };
