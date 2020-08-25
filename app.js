@@ -35,12 +35,12 @@ app.use(boyParser.urlencoded({ extended : true}));
 app.use(boyParser.json());
 app.use('/orders' , orderRoute);
 app.use('/products' , productRoute);
-
+app.use('/uploads' ,express.static('uploads'));
+//catching errors
 app.use('/' , (req , res, next) =>{
     const err = new Error('not found');
     err.status = 404;
     next(err);
-
 });
 
 app.use((err , req , res , next) =>{
