@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const orderRoute = require('./api/routes/orders');
 const productRoute = require('./api/routes/products');
+const userRoutes = require( './api/routes/users');
 const boyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -35,6 +36,7 @@ app.use(boyParser.urlencoded({ extended : true}));
 app.use(boyParser.json());
 app.use('/orders' , orderRoute);
 app.use('/products' , productRoute);
+app.use('/users' , userRoutes);
 app.use('/uploads' ,express.static('uploads'));
 //catching errors
 app.use('/' , (req , res, next) =>{
