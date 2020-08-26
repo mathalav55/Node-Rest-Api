@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose')
 const Prodcut = require('../models/product');
-
+const checkAuth = require('../middleware/check-auth');
 
 
 const multer = require('multer');
@@ -76,7 +76,7 @@ router.get('/' , (req , res , next) =>{
 
 
 //route to post a new product
-router.post('/' ,upload.single('productImage') ,  (req , res , next) =>{
+router.post('/' , upload.single('productImage') , checkAuth ,  (req , res , next) =>{
     console.log(req.file);
     const product = Prodcut({
         _id : new mongoose.Types.ObjectId(),
