@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const config = require('../../config');
+const secretKey = (process.env.NODE_ENV === "production")?process.env.secretKey:config.secretKey;
 
 // user sign up
 router.post('/signup' , ( req , res , next) =>{
@@ -64,7 +66,7 @@ router.post('/login' , (req , res , next) =>{
                         email : user[0].email,
                         id : user[0]._id,
                     },
-                    "secret key",
+                    secretKey,
                     {
                         expiresIn : '1h'
                     }

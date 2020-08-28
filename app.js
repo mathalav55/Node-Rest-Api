@@ -6,6 +6,8 @@ const userRoutes = require( './api/routes/users');
 const boyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const config = require('./config');
+const password = (process.env.NODE_ENV === 'production')?process.env.mongoDBPassword:config.mongoDBPassword;
 
 /*
 //handling CORS errors
@@ -20,7 +22,7 @@ app.use((req , res , next) =>{
 */
 
 //connecting to database
-mongoose.connect('mongodb://localhost:27017/node_db' , 
+mongoose.connect('mongodb+srv://admin:'+password+'@node-rest-api.kemju.mongodb.net/DB001?retryWrites=true&w=majority' , 
 {
     useNewUrlParser : true,
     useUnifiedTopology : true,
